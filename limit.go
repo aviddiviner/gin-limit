@@ -10,8 +10,9 @@ func MaxAllowed(n int) gin.HandlerFunc {
 	release := func() { <-sem }
 	return func(c *gin.Context) {
 		acquire() // before request
+		defer release() // after request
 		c.Next()
-		release() // after request
+		
 	}
 }
 
